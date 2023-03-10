@@ -17,7 +17,6 @@ class MainWindow(Tk):
     def __init__(self) -> None:
         super(MainWindow, self).__init__()
         self.title(string="Curl")
-        self.resizable(width=False, height=False)
         self.bind("<Key>", self.input)
         self.argument = StringVar(master=self, value="-I")
         self.url = StringVar(master=self, value="https://www.example.com")
@@ -35,8 +34,15 @@ class MainWindow(Tk):
         self.response = Text(master=self)
         self.ys = Scrollbar(master=self, orient="vertical", command=self.response.yview)
         self.response["yscrollcommand"] = self.ys.set
-        self.response.grid(row=4, column=0, columnspan=2, padx=10, pady=10, sticky="nwes")
+        self.response.grid(row=4, column=0, columnspan=2, padx=10, pady=10, sticky="nsew")
         self.ys.grid(row=4, column=2, sticky="ns")
+
+        # Make the window resizable and set minimum size.
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(4, weight=1)
+        self.minsize(width=400, height=300)
+
 
     # Submit method for sending curl command and displaying response.
     def submit(self) -> None:
